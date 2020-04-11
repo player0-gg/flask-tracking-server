@@ -1,3 +1,5 @@
 /test/test_data.xml
 .DS_Store
 .idea
+
+*.pyc

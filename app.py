@@ -1,7 +1,13 @@
 from flask import Flask, request, abort, jsonify
+from lib import Errors
 
 
 app = Flask(__name__)
+
+
+@app.errorhandler(Errors.Error)
+def handle_app_errors(err):
+    return err.http_error()
 
 
 @app.route('/api/uploaded_data', methods=['GET'])

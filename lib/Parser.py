@@ -26,7 +26,7 @@ def parse_from_xml_string(xml_string, container_type=DataContainerType.MYSQL):
     return _parse_xml_root(root, container_type)
 
 
-def _parse_xml_root(root, container_type=DataContainerType.MYSQL):
+def _parse_xml_root(root, container_type):
     tracking_data = TrackingData.from_xml_root(root)
 
     if container_type != DataContainerType.MYSQL:

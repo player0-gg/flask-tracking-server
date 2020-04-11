@@ -1,5 +1,8 @@
 from flask import Flask, request, abort, jsonify
 from lib import Errors
+from test.testdata import TEST_DATA_PARSED_XML
+from lib import Database
+import json
 
 
 app = Flask(__name__)
@@ -15,22 +18,36 @@ def uploaded_data():
     # if not request.json:
     #     abort(400)
 
-    return jsonify(text='success')
+    # return jsonify(json=json.dumps(Database.test_data_uploaded_data_overview()))
+    return json.dumps(Database.test_data_uploaded_data_overview())
 
 
 @app.route('/api/uploaded_data/<data_id>', methods=['GET'])
 def uploaded_data_by_id(data_id):
     print('id {}'.format(data_id))
     # load test data
-    return jsonify(text='success', data='')
+    return _data_as_response(Database.test_data_uploaded_data())
+
+
+def _data_as_response(data):
+    # return jsonify(json=json.dumps(data.to_dict()))
+    return json.dumps(data.to_dict())
 
 
 @app.route('/api/upload', methods=['POST'])
 def upload():
+    # parser data to sql
+    user, data = _parse_data_from_upload_request()
+    return Database.upload(user, data)
+
+
+def _parse_data_from_upload_request():
     # if not request.json:
     #     abort(400)
+    user = {'id': 1}
+    data = TEST_DATA_PARSED_XML
 
-    return jsonify(text='success')
+    return user, data
 
 
 @app.route('/api/remove', methods=['POST'])

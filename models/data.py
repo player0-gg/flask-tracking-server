@@ -80,7 +80,7 @@ class TrackingData(object):
 
     @staticmethod
     def _get_x_y_t_from_spot(spot):
-        return [int(float(spot['POSITION_X'])), int(float(spot['POSITION_Y'])), spot['FRAME']]
+        return [int(float(spot['POSITION_X'])), int(float(spot['POSITION_Y'])), int(spot['FRAME'])]
 
     @staticmethod
     def _dict_spots_to_visualisation_coordinates(spots):

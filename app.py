@@ -1,4 +1,5 @@
 from flask import Flask, request, abort, jsonify
+from flask_cors import CORS
 from lib import Errors
 from test.testdata import TEST_DATA_PARSED_XML
 from lib import Database
@@ -6,6 +7,7 @@ import json
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.errorhandler(Errors.Error)
@@ -34,10 +36,19 @@ def _data_as_response(data):
     return json.dumps(data.to_dict())
 
 
+@app.route('/api/update', methods=['POST'])
+def update():
+    # if not request.json:
+    #     abort(400)
+
+    # return jsonify(json=json.dumps(Database.test_data_uploaded_data_overview()))
+    return json.dumps(Database.test_data_uploaded_data_overview())
+
+
 @app.route('/api/upload', methods=['POST'])
 def upload():
     # parser data to sql
-    # user, data = _parse_data_from_upload_request()
+    user, data = _parse_data_from_upload_request()
     # return Database.upload(user, data)
     return _data_as_response(Database.test_data_uploaded_data())
 

@@ -37,8 +37,9 @@ def _data_as_response(data):
 @app.route('/api/upload', methods=['POST'])
 def upload():
     # parser data to sql
-    user, data = _parse_data_from_upload_request()
-    return Database.upload(user, data)
+    # user, data = _parse_data_from_upload_request()
+    # return Database.upload(user, data)
+    return _data_as_response(Database.test_data_uploaded_data())
 
 
 def _parse_data_from_upload_request():

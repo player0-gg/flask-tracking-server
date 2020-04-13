@@ -76,7 +76,8 @@ class TrackingData(object):
             visualisation_coordinates = TrackingData._dict_spots_to_visualisation_coordinates(dict_spots)
             visualisation_data[track_name] = {'attrib': track['attrib'], 'spots': visualisation_coordinates}
 
-        return visualisation_data
+        compatible_visual_data = [{'name': key, 'data': value} for key, value in visualisation_data.items()]
+        return {'tracks': compatible_visual_data}
 
     @staticmethod
     def _get_x_y_t_from_spot(spot):

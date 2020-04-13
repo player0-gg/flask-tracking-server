@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from lib import Errors
-from models.data import TrackingData, DataContainerType, SqlDataContainer
+from models.data import TrackingData, DataContainerType, DataContainer
 
 
 def parse(xml_file_path, container_type=DataContainerType.MYSQL):
@@ -33,5 +33,8 @@ def _parse_xml_root(root, container_type):
         raise Errors.DATA_CONTAINER_TYPE_INVALID
 
     if container_type == DataContainerType.MYSQL:
-        return SqlDataContainer(tracking_data)
+        data_container = DataContainer()
+        data_container.type = DataContainerType.MYSQL
+        data_container.data = tracking_data
+        return data_container
     # elif ...

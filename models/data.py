@@ -111,49 +111,21 @@ class DataContainerType:
 
 class DataContainer(object):
     """A base class to store tracking data"""
-    KEY_ID = 'id'
-    KEY_TYPE = 'type'
-    KEY_VERSION = 'version'
-    KEY_TRACKING_DATA = 'data'
-
     def __init__(self):
-        self._data = {}
-
-    def id(self):
-        return self._data[DataContainer.KEY_ID]
-
-    def type(self):
-        return self._data[DataContainer.KEY_TYPE]
-
-    def version(self):
-        return self._data[DataContainer.KEY_VERSION]
-
-    def tracking_data(self):
-        return self._data[DataContainer.KEY_TRACKING_DATA]
-
-    def __str__(self):
-        return 'data: {}'.format(self._data)
-
-
-class SqlDataContainer(DataContainer):
-    """A class used to store tracking data temporary and help to convert the tracking data <=> sql table"""
-    def __init__(self, tracking_data, version='0.0.1'):
-        # override the super method
-        self._data = {
-            DataContainer.KEY_TYPE: DataContainerType.MYSQL,
-            DataContainer.KEY_VERSION: version,
-            DataContainer.KEY_TRACKING_DATA: tracking_data,
-            DataContainer.KEY_ID: 1
-        }
-        # preprocessing necessary?
+        self.data = None
+        self.id = None
+        self.title = None
+        self.comment = None
+        self.type = None
+        self.version = None
 
     def to_dict(self):
-        tracking_data = self.tracking_data()
-        visualisation_data = tracking_data.visualisation_data()
-        result = {
-            'id': self.id(),
-            'title': 'title',
-            'comment': 'comment',
-            'content': visualisation_data
+        return {
+            'id': self.id,
+            'title': self.title,
+            'comment': self.comment,
+            'content': self.data.visualisation_data()
         }
-        return result
+
+    def __str__(self):
+        return 'data: {}'.format(self.data)

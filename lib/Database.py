@@ -1,15 +1,25 @@
 from flask import g, jsonify
 from lib import Errors
 from test.testdata import TEST_DATA_PARSED_XML, TEST_DATA_OVERVIEW
+from os import environ
+from pymongo import MongoClient
 
 
 def _get_client():
-    if not hasattr(g, 'client'):
-        # TODO: init client mysql, mongodb, ...
-        client = "TODO"
-        g.client = client
+    if not hasattr(g, 'mongodb_client'):
+        # TODO: init environment (dev, testing, prod)
+        client = MongoClient(environ.get('MONGODB_CLIENT_CONFIG'))
+        g.mongodb_client = client
 
-    return client
+    return g.mongodb_client
+
+
+def _get_db():
+    client = _get_client()
+    if not hasattr(g, 'db_test'):
+        g.db_test = client.test
+    return g.db_test
+
 
 
 # TODO: add test mode environment
@@ -56,6 +66,10 @@ def test_data_uploaded_data(data_id):
 
 
 def test_data_uploaded_data_overview():
+    mongodb_test = _get_db()
+    user_entry = mongodb_test.users.find_one({'name': 'tester1'})
+    print('user_entry = {}'.format(user_entry))
+
     # return test data
     return TEST_DATA_OVERVIEW
 

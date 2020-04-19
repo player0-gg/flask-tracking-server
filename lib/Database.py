@@ -21,6 +21,10 @@ def _get_db():
     return g.db_test
 
 
+def find_user(user):
+    mongodb_test = _get_db()
+    return mongodb_test.users.find_one({'email': user['email']})
+
 
 # TODO: add test mode environment
 

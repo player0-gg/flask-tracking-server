@@ -1,12 +1,14 @@
+import json
 from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from lib import Errors
 from test.testdata import TEST_DATA_PARSED_XML
 from lib import Database
-import json
+from auth import auth
 
 
 app = Flask(__name__)
+app.register_blueprint(auth)
 CORS(app)
 
 
